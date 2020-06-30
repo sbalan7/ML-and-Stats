@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 '''
 fig1 = plt.figure(figsize=(10, 6))
@@ -34,7 +35,6 @@ line = plt.plot(x, y, '-')
 dots = plt.plot(x, y_, 'r.')
 
 plt.show()
-'''
 
 
 def dummy_train(t):
@@ -54,4 +54,17 @@ ax.set_xlim(0, 1)
 ax.set_xticks([])
 ax.set_xlabel('Epochs')
 ax.set_ylabel('Accuracy')
+plt.show()
+'''
+
+
+x = np.random.rand(30)
+y = (x * 8) + np.random.rand(30)
+
+mean = [np.mean(y) for i in range(len(x))]
+
+fig = plt.figure(figsize=(10, 6))
+sns.regplot(x, y, label='Data')
+plt.plot(x, mean, 'k-', label='Mean')
+plt.legend()
 plt.show()
