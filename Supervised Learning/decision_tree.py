@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
 
 data = load_iris()
 X = data.data
@@ -62,13 +62,40 @@ plot_tree(dt2, filled=True, fontsize=10)
 plt.savefig('tree_small.png', dpi=100)
 '''
 
+fig4 = plt.figure(figsize=(10, 3))
+
 rf = RandomForestClassifier().fit(X, y)
+ab = AdaBoostClassifier().fit(X, y)
+gb = GradientBoostingClassifier().fit(X, y)
+
+plt.subplot(131)
+
 Z = rf.predict(np.c_[xx.ravel(), yy.ravel()])
 Z = Z.reshape(xx.shape)
-plt.figure()
 plt.title('Random Forest')
 plt.contourf(xx, yy, Z, cmap=plt.cm.brg, alpha=0.4)
 plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.brg, marker='.')
 plt.xticks([])
 plt.yticks([])
+
+plt.subplot(132)
+
+Z = ab.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+plt.title('AdaBoost')
+plt.contourf(xx, yy, Z, cmap=plt.cm.brg, alpha=0.4)
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.brg, marker='.')
+plt.xticks([])
+plt.yticks([])
+
+plt.subplot(133)
+
+Z = gb.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+plt.title('Gradient Boosting')
+plt.contourf(xx, yy, Z, cmap=plt.cm.brg, alpha=0.4)
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.brg, marker='.')
+plt.xticks([])
+plt.yticks([])
+
 plt.show()
