@@ -88,24 +88,20 @@ def logistic_reg():
 
     x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
     y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
-    h = .02
+    h = 0.02
+
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
     Z = logreg.predict(np.c_[xx.ravel(), yy.ravel()])
-
     Z = Z.reshape(xx.shape)
-    plt.figure(1, figsize=(8, 6))
-    plt.pcolormesh(xx, yy, Z, cmap=plt.cm.Paired)
 
-    plt.scatter(X[:, 0], X[:, 1], c=Y, edgecolors='k', cmap=plt.cm.Paired)
-    plt.xlabel('Sepal length')
-    plt.ylabel('Sepal width')
-
+    plt.figure(figsize=(7, 6))
+    plt.contourf(xx, yy, Z, cmap=plt.cm.brg, alpha=0.4)
+    plt.scatter(X[:, 0], X[:, 1], c=Y, cmap=plt.cm.brg, marker='.')
     plt.xlim(xx.min(), xx.max())
     plt.ylim(yy.min(), yy.max())
     plt.xticks(())
     plt.yticks(())
     plt.title('Logistic Regression with 3 classes')
-
     plt.show()
 
 logistic_reg()
