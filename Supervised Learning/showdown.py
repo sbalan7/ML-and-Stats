@@ -3,12 +3,20 @@ import matplotlib.pyplot as plt
 import time
 from sklearn import * 
 from sklearn.datasets import load_breast_cancer, load_wine, load_iris
+from sklearn.datasets import load_boston, load_diabetes
 from sklearn.model_selection import train_test_split
 
 
-def evaluate(clf):
+def evaluate_c(clf):
     tic = time.time()
     s = metrics.accuracy_score(y_test, clf.predict(X_test))
+    toc = time.time()
+    t = toc - tic
+    return s, t
+
+def evaluate_r(clf):
+    tic = time.time()
+    s = metrics.r2_score(y_test, clf.predict(X_test))
     toc = time.time()
     t = toc - tic
     return s, t
@@ -31,7 +39,7 @@ def classification_data():
     knn_t = toc-tic
     algos.append('KNN*')
     ttimes.append(knn_t)
-    s, t = evaluate(knn)
+    s, t = evaluate_c(knn)
     scores.append(s)
     times.append(t)
 
@@ -41,7 +49,7 @@ def classification_data():
     log_t = toc-tic
     algos.append('Log Reg*')
     ttimes.append(log_t)
-    s, t = evaluate(log)
+    s, t = evaluate_c(log)
     scores.append(s)
     times.append(t)
 
@@ -51,7 +59,7 @@ def classification_data():
     gnb_t = toc-tic
     algos.append('Gauss NB')
     ttimes.append(gnb_t)
-    s, t = evaluate(gnb)
+    s, t = evaluate_c(gnb)
     scores.append(s)
     times.append(t)
 
@@ -61,7 +69,7 @@ def classification_data():
     srb_t = toc-tic
     algos.append('RBF SVM')
     ttimes.append(srb_t)
-    s, t = evaluate(srb)
+    s, t = evaluate_c(srb)
     scores.append(s)
     times.append(t)
 
@@ -71,7 +79,7 @@ def classification_data():
     sp5_t = toc-tic
     algos.append('Deg 5 SVM')
     ttimes.append(sp5_t)
-    s, t = evaluate(sp5)
+    s, t = evaluate_c(sp5)
     scores.append(s)
     times.append(t)
 
@@ -81,7 +89,7 @@ def classification_data():
     dtr_t = toc-tic
     algos.append('Dec Tree*')
     ttimes.append(dtr_t)
-    s, t = evaluate(dtr)
+    s, t = evaluate_c(dtr)
     scores.append(s)
     times.append(t)
 
@@ -91,7 +99,7 @@ def classification_data():
     rfc_t = toc-tic
     algos.append('Rand For*')
     ttimes.append(rfc_t)
-    s, t = evaluate(rfc)
+    s, t = evaluate_c(rfc)
     scores.append(s)
     times.append(t)
 
@@ -101,7 +109,7 @@ def classification_data():
     abc_t = toc-tic
     algos.append('AdaBoost*')
     ttimes.append(abc_t)
-    s, t = evaluate(abc)
+    s, t = evaluate_c(abc)
     scores.append(s)
     times.append(t)
 
@@ -111,7 +119,105 @@ def classification_data():
     gbc_t = toc-tic
     algos.append('GradBoost*')
     ttimes.append(gbc_t)
-    s, t = evaluate(gbc)
+    s, t = evaluate_c(gbc)
+    scores.append(s)
+    times.append(t)
+
+    return algos, np.array(ttimes), np.array(times), np.array(scores)
+
+def regression_data():
+    algos = []
+    ttimes = []
+    scores = []
+    times = []
+
+    tic = time.time()
+    lin = linear_model.LinearRegression().fit(X_train, y_train)
+    toc = time.time()
+    lin_t = toc-tic
+    algos.append('Lin Reg*')
+    ttimes.append(lin_t)
+    s, t = evaluate_r(lin)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    rid = linear_model.Ridge().fit(X_train, y_train)
+    toc = time.time()
+    rid_t = toc-tic
+    algos.append('Ridge*')
+    ttimes.append(rid_t)
+    s, t = evaluate_r(rid)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    las = linear_model.Lasso().fit(X_train, y_train)
+    toc = time.time()
+    las_t = toc-tic
+    algos.append('Lasso*')
+    ttimes.append(las_t)
+    s, t = evaluate_r(las)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    srb = svm.SVR(kernel='rbf').fit(X_train, y_train)
+    toc = time.time()
+    srb_t = toc-tic
+    algos.append('RBF SVR')
+    ttimes.append(srb_t)
+    s, t = evaluate_r(srb)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    sp5 = svm.SVR(kernel='poly', degree=5).fit(X_train, y_train)
+    toc = time.time()
+    sp5_t = toc-tic
+    algos.append('Deg 5 SVR')
+    ttimes.append(sp5_t)
+    s, t = evaluate_r(sp5)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    dtr = tree.DecisionTreeRegressor().fit(X_train, y_train)
+    toc = time.time()
+    dtr_t = toc-tic
+    algos.append('Dec Tree*')
+    ttimes.append(dtr_t)
+    s, t = evaluate_r(dtr)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    rfc = ensemble.RandomForestRegressor().fit(X_train, y_train)
+    toc = time.time()
+    rfc_t = toc-tic
+    algos.append('Rand For*')
+    ttimes.append(rfc_t)
+    s, t = evaluate_r(rfc)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    abc = ensemble.AdaBoostRegressor().fit(X_train, y_train)
+    toc = time.time()
+    abc_t = toc-tic
+    algos.append('AdaBoost*')
+    ttimes.append(abc_t)
+    s, t = evaluate_r(abc)
+    scores.append(s)
+    times.append(t)
+
+    tic = time.time()
+    gbc = ensemble.GradientBoostingRegressor().fit(X_train, y_train)
+    toc = time.time()
+    gbc_t = toc-tic
+    algos.append('GradBoost*')
+    ttimes.append(gbc_t)
+    s, t = evaluate_r(gbc)
     scores.append(s)
     times.append(t)
 
@@ -158,72 +264,52 @@ def plotting(algos, ttimes, times, scores, dataset):
     plt.title('Accuracy Comparison on {} Dataset'.format(dataset))
     plt.show()
  
+def plot_data(dataset, k):
+    algos = []
+    ottimes = np.zeros((9, ))
+    otimes = np.zeros((9, ))
+    oscores = np.zeros((9, ))
+
+    if k=='c':
+        for i in range(10):
+            algos, ttimes, times, scores = classification_data()
+            ottimes = ottimes + ttimes
+            otimes = otimes + times
+            oscores = oscores + scores
+    if k=='r':
+        for i in range(10):
+            algos, ttimes, times, scores = regression_data()
+            ottimes = ottimes + ttimes
+            otimes = otimes + times
+            oscores = oscores + scores
+
+    ottimes /= 10
+    otimes /= 10
+    oscores /= 10
+
+    plotting(algos, ottimes, otimes, oscores, dataset)
+
 
 data = load_breast_cancer()
 X = data.data
 y = data.target
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=27)
-
-algos = []
-ottimes = np.zeros((9, ))
-otimes = np.zeros((9, ))
-oscores = np.zeros((9, ))
-
-for i in range(10):
-    algos, ttimes, times, scores = classification_data()
-    ottimes = ottimes + ttimes
-    otimes = otimes + times
-    oscores = oscores + scores
-
-ottimes /= 10
-otimes /= 10
-oscores /= 10
-
-plotting(algos, ottimes, otimes, oscores, 'Breast Cancer')
+plot_data('Breast Cancer', 'c')
 
 data = load_iris()
 X = data.data
 y = data.target
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=82)
-
-algos = []
-ottimes = np.zeros((9, ))
-otimes = np.zeros((9, ))
-oscores = np.zeros((9, ))
-
-for i in range(10):
-    algos, ttimes, times, scores = classification_data()
-    ottimes = ottimes + ttimes
-    otimes = otimes + times
-    oscores = oscores + scores
-
-ottimes /= 10
-otimes /= 10
-oscores /= 10
-
-plotting(algos, ottimes, otimes, oscores, 'Iris')
+plot_data('Iris', 'c')
 
 data = load_wine()
 X = data.data
 y = data.target
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=3)
+plot_data('Wine', 'c')
 
-algos = []
-ottimes = np.zeros((9, ))
-otimes = np.zeros((9, ))
-oscores = np.zeros((9, ))
-
-for i in range(10):
-    algos, ttimes, times, scores = classification_data()
-    ottimes = ottimes + ttimes
-    otimes = otimes + times
-    oscores = oscores + scores
-
-ottimes /= 10
-otimes /= 10
-oscores /= 10
-
-plotting(algos, ottimes, otimes, oscores, 'Wine')
+data = load_boston()
+X = data.data
+y = data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=47)
+plot_data('Boston Housing Prices', 'r')
