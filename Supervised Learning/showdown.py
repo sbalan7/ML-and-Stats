@@ -1,10 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from sklearn import * 
 from sklearn.datasets import load_breast_cancer, load_wine, load_iris
 from sklearn.datasets import load_boston, load_diabetes
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression, LinearRegression, Lasso, Ridge
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC, SVR
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
 
 
 def evaluate_c(clf):
@@ -34,7 +41,7 @@ def classification_data():
     times = []
 
     tic = time.time()
-    knn = neighbors.KNeighborsClassifier().fit(X_train, y_train)
+    knn = KNeighborsClassifier().fit(X_train, y_train)
     toc = time.time()
     knn_t = toc-tic
     algos.append('KNN*')
@@ -44,7 +51,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    log = linear_model.LogisticRegression().fit(X_train, y_train)
+    log = LogisticRegression().fit(X_train, y_train)
     toc = time.time()
     log_t = toc-tic
     algos.append('Log Reg*')
@@ -54,7 +61,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    gnb = naive_bayes.GaussianNB().fit(X_train, y_train)
+    gnb = GaussianNB().fit(X_train, y_train)
     toc = time.time()
     gnb_t = toc-tic
     algos.append('Gauss NB')
@@ -64,7 +71,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    srb = svm.SVC(kernel='rbf').fit(X_train, y_train)
+    srb = SVC(kernel='rbf').fit(X_train, y_train)
     toc = time.time()
     srb_t = toc-tic
     algos.append('RBF SVM')
@@ -74,7 +81,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    sp5 = svm.SVC(kernel='poly', degree=5).fit(X_train, y_train)
+    sp5 = SVC(kernel='poly', degree=5).fit(X_train, y_train)
     toc = time.time()
     sp5_t = toc-tic
     algos.append('Deg 5 SVM')
@@ -84,7 +91,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    dtr = tree.DecisionTreeClassifier().fit(X_train, y_train)
+    dtr = DecisionTreeClassifier().fit(X_train, y_train)
     toc = time.time()
     dtr_t = toc-tic
     algos.append('Dec Tree*')
@@ -94,7 +101,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    rfc = ensemble.RandomForestClassifier().fit(X_train, y_train)
+    rfc = RandomForestClassifier().fit(X_train, y_train)
     toc = time.time()
     rfc_t = toc-tic
     algos.append('Rand For*')
@@ -104,7 +111,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    abc = ensemble.AdaBoostClassifier().fit(X_train, y_train)
+    abc = AdaBoostClassifier().fit(X_train, y_train)
     toc = time.time()
     abc_t = toc-tic
     algos.append('AdaBoost*')
@@ -114,7 +121,7 @@ def classification_data():
     times.append(t)
 
     tic = time.time()
-    gbc = ensemble.GradientBoostingClassifier().fit(X_train, y_train)
+    gbc = GradientBoostingClassifier().fit(X_train, y_train)
     toc = time.time()
     gbc_t = toc-tic
     algos.append('GradBoost*')
@@ -132,7 +139,7 @@ def regression_data():
     times = []
 
     tic = time.time()
-    lin = linear_model.LinearRegression().fit(X_train, y_train)
+    lin = LinearRegression().fit(X_train, y_train)
     toc = time.time()
     lin_t = toc-tic
     algos.append('Lin Reg*')
@@ -142,7 +149,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    rid = linear_model.Ridge().fit(X_train, y_train)
+    rid = Ridge().fit(X_train, y_train)
     toc = time.time()
     rid_t = toc-tic
     algos.append('Ridge*')
@@ -152,7 +159,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    las = linear_model.Lasso().fit(X_train, y_train)
+    las = Lasso().fit(X_train, y_train)
     toc = time.time()
     las_t = toc-tic
     algos.append('Lasso*')
@@ -162,7 +169,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    srb = svm.SVR(kernel='rbf').fit(X_train, y_train)
+    srb = SVR(kernel='rbf').fit(X_train, y_train)
     toc = time.time()
     srb_t = toc-tic
     algos.append('RBF SVR')
@@ -172,7 +179,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    sp5 = svm.SVR(kernel='poly', degree=5).fit(X_train, y_train)
+    sp5 = SVR(kernel='poly', degree=5).fit(X_train, y_train)
     toc = time.time()
     sp5_t = toc-tic
     algos.append('Deg 5 SVR')
@@ -182,7 +189,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    dtr = tree.DecisionTreeRegressor().fit(X_train, y_train)
+    dtr = DecisionTreeRegressor().fit(X_train, y_train)
     toc = time.time()
     dtr_t = toc-tic
     algos.append('Dec Tree*')
@@ -192,7 +199,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    rfc = ensemble.RandomForestRegressor().fit(X_train, y_train)
+    rfc = RandomForestRegressor().fit(X_train, y_train)
     toc = time.time()
     rfc_t = toc-tic
     algos.append('Rand For*')
@@ -202,7 +209,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    abc = ensemble.AdaBoostRegressor().fit(X_train, y_train)
+    abc = AdaBoostRegressor().fit(X_train, y_train)
     toc = time.time()
     abc_t = toc-tic
     algos.append('AdaBoost*')
@@ -212,7 +219,7 @@ def regression_data():
     times.append(t)
 
     tic = time.time()
-    gbc = ensemble.GradientBoostingRegressor().fit(X_train, y_train)
+    gbc = GradientBoostingRegressor().fit(X_train, y_train)
     toc = time.time()
     gbc_t = toc-tic
     algos.append('GradBoost*')
