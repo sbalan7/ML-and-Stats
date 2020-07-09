@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-'''
+
 fig1 = plt.figure(figsize=(10, 6))
 
 x1 = np.random.randn(1, 20)
@@ -24,7 +24,6 @@ c4 = plt.plot(x4, y4, 'y.')
 
 plt.show()
 
-
 fig2 = plt.figure(figsize=(10, 6))
 x = np.arange(0, 100, 4)
 y = 5 * x + 4
@@ -35,7 +34,6 @@ line = plt.plot(x, y, '-')
 dots = plt.plot(x, y_, 'r.')
 
 plt.show()
-
 
 def dummy_train(t):
     return (1-np.exp(-5*x))
@@ -55,8 +53,6 @@ ax.set_xticks([])
 ax.set_xlabel('Epochs')
 ax.set_ylabel('Accuracy')
 plt.show()
-'''
-
 
 x = np.random.rand(30)
 y = (x * 8) + np.random.rand(30)

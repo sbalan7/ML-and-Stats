@@ -9,7 +9,6 @@ X, color = make_s_curve(n_points, random_state=0)
 n_neighbors = 10
 n_components = 2
 
-# Create figure
 fig = plt.figure(figsize=(12, 4))
 
 ax = fig.add_subplot(131, projection='3d')
