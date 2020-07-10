@@ -39,7 +39,3 @@ plt.plot(lor_fpr, lor_tpr, 'b-', label='Logistic Regression, AUC = {:.4f}'.forma
 plt.legend(frameon=False)
 plt.show()
 
-
-
-
-plt.show()

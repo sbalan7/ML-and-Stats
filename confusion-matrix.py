@@ -30,5 +30,5 @@ def two_class():
     plot_confusion_matrix(svm, X_test, y_test, display_labels=bc.target_names, cmap=plt.cm.Blues)
     plt.show()
 
-#three_class()
+three_class()
 two_class()
